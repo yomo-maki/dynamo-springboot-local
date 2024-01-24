@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  dynamodb-local: # # DynamoDB
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    user: root
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /data
+    volumes:
+      - ./data/dynamodb:/data
+    ports:
+      - "8000:8000"
+
+  dynamo-admin: # DynamoDBをGUIで操作できるツール http://localhost:8001 からアクセス
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: dynamo-admin
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb-local:8000
+    ports:
+      - "8001:8001"
+    depends_on:
+      - dynamodb-local
+
+  spring: # sprig 本体
+    container_name: dynamo-springboot-local  # コンテナ名（Docker Desktop上はこの名前で表示される）
+    build: ./docker/spring      # Dockerfileを含むディレクトリへのパス
+    depends_on:
+      - dynamo-admin  # DynamoDBコンテナが起動した後に起動させる
+    ports:
+      - "8080:8080"             # ポートマッピング
+    volumes:
+      - .:/app                  # ボリュームマッピング
+    working_dir: /app
+    command: sh -c "java -jar ./build/libs/dynamo-springboot-local-0.0.1-SNAPSHOT.jar"
