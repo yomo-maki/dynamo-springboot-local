@@ -6,13 +6,13 @@
 ローカル環境でSpringBoot - DynamoDBの開発環境を構築する
 
 AWSに載せる予定のAPI開発をしようとした際に、AWSアカウント作成しなくても完全なローカル環境でDynamoDBを動かせるものを見つけたためCRAD処理ができるAPIを作成してみた。  
-環境構築で楽をしたかったのでspringBoot, DynamoDB local, DynamoDB local GUIをDockerで動かす。  
+ローカルDynamoDB自体もDockerイメージで取得することができるため今回はSpringBoot, DynamoDB local, DynamoDB local GUIをDockerで動かす。  
 
 ### 環境情報  
 SpringBoot 3.1.7  
 Gradle 8.5  
 Java 17  
-環境構築で楽したかったのでDocker  
+Docker  
 
 IDE :VSCode  
 &ensp; 今回使用したVSの拡張機能は以下  
@@ -23,7 +23,7 @@ IDE :VSCode
 DynamoDB local  
 今回はDocker使うのでインストールはしない  
 ダウンロードしたい方はここから取ることができます  
-https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
 
 # DynamoDBアクセスに関しての作り
 - Repositoryクラスの@EnableScanがついているものをConfigクラスのDynamoDBConfig.javaにて、Beanにしてくれる  
